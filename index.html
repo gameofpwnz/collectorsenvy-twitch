@@ -13,74 +13,7 @@
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
       background: transparent;
-    }
-
-    .config-panel {
-      background: #f5f5f5;
       padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      border: 2px solid #9147ff;
-    }
-
-    .config-panel h3 {
-      color: #9147ff;
-      margin-bottom: 15px;
-      font-size: 18px;
-    }
-
-    .input-group {
-      margin-bottom: 15px;
-    }
-
-    .input-group label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: 600;
-      color: #333;
-      font-size: 14px;
-    }
-
-    .input-group input {
-      width: 100%;
-      padding: 10px;
-      border: 2px solid #ddd;
-      border-radius: 4px;
-      font-size: 14px;
-      font-family: monospace;
-    }
-
-    .input-group input:focus {
-      outline: none;
-      border-color: #9147ff;
-    }
-
-    .input-group small {
-      display: block;
-      margin-top: 5px;
-      color: #666;
-      font-size: 12px;
-    }
-
-    .btn {
-      background: #9147ff;
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 600;
-      transition: background 0.2s;
-    }
-
-    .btn:hover {
-      background: #772ce8;
-    }
-
-    .btn:disabled {
-      background: #ccc;
-      cursor: not-allowed;
     }
 
     .streams-container {
@@ -191,71 +124,35 @@
   </style>
 </head>
 <body>
-  <div class="config-panel">
-    <h3>⚙️ Configuration</h3>
-    
-    <div class="input-group">
-      <label for="backendUrl">Your Cloudflare Worker URL:</label>
-      <input 
-        type="text" 
-        id="backendUrl" 
-        placeholder="https://lively-glitter-e13f.ashton-98e.workers.dev"
-      >
-      <small>After deploying the backend, paste your Worker URL here</small>
-    </div>
-
-    <div class="input-group">
-      <label for="streamers">Twitch Streamers (comma-separated):</label>
-      <input 
-        type="text" 
-        id="streamers" 
-        placeholder="djraylovee, mohawk_marco, zavpaul, sch_zeus, pwnzie_09"
-      >
-      <small>Enter Twitch usernames separated by commas</small>
-    </div>
-
-    <button class="btn" onclick="checkStreams()">Check Live Streams</button>
-  </div>
-
   <div id="streamsContainer"></div>
 
   <script>
-    // Auto-save configuration to localStorage
-    const backendUrlInput = document.getElementById('backendUrl');
-    const streamersInput = document.getElementById('streamers');
-
-    // Load saved values
-    backendUrlInput.value = localStorage.getItem('twitchBackendUrl') || '';
-    streamersInput.value = localStorage.getItem('twitchStreamers') || '';
-
-    // Save on change
-    backendUrlInput.addEventListener('change', () => {
-      localStorage.setItem('twitchBackendUrl', backendUrlInput.value);
-    });
-
-    streamersInput.addEventListener('change', () => {
-      localStorage.setItem('twitchStreamers', streamersInput.value);
-    });
+    // ============================================
+    // CONFIGURATION - EDIT THESE VALUES
+    // ============================================
+    
+    // Your Cloudflare Worker URL (set this after deploying the backend)
+    const BACKEND_URL = 'https://lively-glitter-e13f.ashton-98e.workers.dev';
+    
+    // List of Twitch streamers to track (comma-separated usernames)
+    const STREAMERS = 'djraylovee, zavpaul, mohawk_marco, pwnzie_09, sch_zeus, frosty';
+    
+    // ============================================
+    // END CONFIGURATION
+    // ============================================
 
     async function checkStreams() {
-      const backendUrl = backendUrlInput.value.trim();
-      const streamers = streamersInput.value.trim();
       const container = document.getElementById('streamsContainer');
 
-      if (!backendUrl) {
-        container.innerHTML = '<div class="error">⚠️ Please enter your Cloudflare Worker URL</div>';
-        return;
-      }
-
-      if (!streamers) {
-        container.innerHTML = '<div class="error">⚠️ Please enter at least one streamer username</div>';
+      if (BACKEND_URL === 'YOUR_WORKER_URL_HERE') {
+        container.innerHTML = '<div class="error">⚠️ Please configure your BACKEND_URL in the HTML file</div>';
         return;
       }
 
       container.innerHTML = '<div class="loading">🔄 Checking who\'s live...</div>';
 
       try {
-        const response = await fetch(`${backendUrl}?streamers=${encodeURIComponent(streamers)}`);
+        const response = await fetch(`${BACKEND_URL}?streamers=${encodeURIComponent(STREAMERS)}`);
         const data = await response.json();
 
         if (data.error) {
@@ -305,17 +202,11 @@
       return div.innerHTML;
     }
 
-    // Auto-check on page load if config exists
-    if (backendUrlInput.value && streamersInput.value) {
-      checkStreams();
-    }
+    // Auto-check on page load
+    checkStreams();
 
-    // Optional: Auto-refresh every 60 seconds
-    setInterval(() => {
-      if (backendUrlInput.value && streamersInput.value) {
-        checkStreams();
-      }
-    }, 60000);
+    // Auto-refresh every 60 seconds
+    setInterval(checkStreams, 60000);
   </script>
 </body>
 </html>
