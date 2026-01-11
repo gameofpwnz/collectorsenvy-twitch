@@ -25,8 +25,12 @@
       --shadow: 0 18px 45px rgba(0,0,0,0.65);
       --radius-xl: 18px;
       --radius: 14px;
+
+      /* Helps native controls render dark dropdowns */
+      color-scheme: dark;
     }
 
+    html { color-scheme: dark; }
     * { box-sizing: border-box; }
 
     body {
@@ -209,6 +213,37 @@
       font-size: 0.9rem;
       color: rgba(255,255,255,0.42);
       pointer-events: none;
+    }
+
+    /* ===== Fix dropdown (white-on-white) ===== */
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-color: rgba(0,0,0,0.35);
+      color: var(--text);
+
+      /* Add a custom arrow (since appearance:none hides it) */
+      background-image:
+        linear-gradient(45deg, transparent 50%, rgba(255,255,255,0.55) 50%),
+        linear-gradient(135deg, rgba(255,255,255,0.55) 50%, transparent 50%);
+      background-position:
+        calc(100% - 18px) calc(50% - 2px),
+        calc(100% - 12px) calc(50% - 2px);
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+      padding-right: 2.2rem;
+    }
+
+    select option,
+    select optgroup {
+      background-color: #0b0b0b;
+      color: rgba(255,255,255,0.92);
+    }
+
+    select option:checked {
+      background-color: rgba(0,240,255,0.18);
+      color: rgba(255,255,255,0.95);
     }
 
     .pill-btn {
@@ -473,13 +508,8 @@
       transform: translateY(-0.5px);
     }
 
-    .btn-link.tickets {
-      border-color: rgba(255,255,255,0.18);
-    }
-
-    .btn-link.tickets:hover {
-      border-color: rgba(0,240,255,0.30);
-    }
+    .btn-link.tickets { border-color: rgba(255,255,255,0.18); }
+    .btn-link.tickets:hover { border-color: rgba(0,240,255,0.30); }
 
     .summary {
       padding: 0.75rem 1.1rem 0.9rem;
@@ -515,7 +545,6 @@
 
 <body>
   <div class="shell">
-    <!-- Homepage-like link list -->
     <nav class="topnav" aria-label="Collectors Envy links">
       <a href="https://www.collectorsenvy.com/" rel="noopener"><span class="dot"></span>Home</a>
       <a href="https://discord.gg/RgnNBhkzUc" target="_blank" rel="noopener noreferrer"><span class="dot"></span>Discord</a>
@@ -529,9 +558,7 @@
         Collectors Envy Event Calendar
         <span class="year-badge" id="yearLabel"></span>
       </h1>
-      <p class="subtitle">
-        Browse all our events, neatly organized by year and month.
-      </p>
+      <p class="subtitle">Browse all our events, neatly organized by year and month.</p>
     </header>
 
     <section class="controls">
@@ -539,11 +566,7 @@
         <div class="field" style="flex-basis:100%;">
           <label for="searchInput">Search</label>
           <span class="field-icon">🔎</span>
-          <input
-            type="search"
-            id="searchInput"
-            placeholder="Search by title, location, or description…"
-          />
+          <input type="search" id="searchInput" placeholder="Search by title, location, or description…" />
         </div>
 
         <div class="field">
@@ -590,11 +613,9 @@
   <script>
     // =====================================================
     // 1. DEFINE YOUR EVENTS HERE
-    //    date = start date (required)
-    //    endDate = end of range (optional, for multi-day events)
     // =====================================================
     const events = [
-     {
+      {
         date: "2026-01-29",
         endDate: "2026-02-01",
         title: "2026 Call of Duty League OpTic Texas Major I, presented by Monster Energy",
@@ -607,7 +628,7 @@
         ticketsUrl: "https://www.tixr.com/groups/optictexas/events/optic-texas-major-i-presented-by-monster-energy-166248",
         ticketsText: "Tickets"
       },
-     {
+      {
         date: "2026-03-06",
         title: "OpTic Gaming x Dallas Stars Night",
         time: "7:00PM",
@@ -702,10 +723,7 @@
 
         if (!groups[y]) groups[y] = {};
         if (!groups[y][m]) {
-          groups[y][m] = {
-            label: parts.monthLabel,
-            events: []
-          };
+          groups[y][m] = { label: parts.monthLabel, events: [] };
         }
         groups[y][m].events.push(evt);
       });
@@ -798,33 +816,24 @@
       const yearValue = yearFilterEl.value;
       const monthValue = monthFilterEl.value;
 
-      let filtered = [...events].sort(
-        (a, b) => parseDate(a.date) - parseDate(b.date)
-      );
+      let filtered = [...events].sort((a, b) => parseDate(a.date) - parseDate(b.date));
 
       if (yearValue !== "all") {
         const yearInt = parseInt(yearValue, 10);
-        filtered = filtered.filter(
-          evt => formatDateParts(evt.date).year === yearInt
-        );
+        filtered = filtered.filter(evt => formatDateParts(evt.date).year === yearInt);
       }
 
       if (monthValue !== "all") {
         const monthIndexFilter = parseInt(monthValue, 10);
-        filtered = filtered.filter(
-          evt => formatDateParts(evt.date).monthIndex === monthIndexFilter
-        );
+        filtered = filtered.filter(evt => formatDateParts(evt.date).monthIndex === monthIndexFilter);
       }
 
       if (searchTerm) {
         filtered = filtered.filter(evt => {
           const text =
-            (evt.title || "") +
-            " " +
-            (evt.location || "") +
-            " " +
-            (evt.description || "") +
-            " " +
+            (evt.title || "") + " " +
+            (evt.location || "") + " " +
+            (evt.description || "") + " " +
             (evt.category || "");
           return text.toLowerCase().includes(searchTerm);
         });
@@ -848,9 +857,7 @@
       }
 
       const groups = groupByYearAndMonth(filtered);
-      const yearsSorted = Object.keys(groups)
-        .map(Number)
-        .sort((a, b) => a - b);
+      const yearsSorted = Object.keys(groups).map(Number).sort((a, b) => a - b);
 
       yearsSorted.forEach(year => {
         const yearGroupDiv = document.createElement("div");
@@ -873,13 +880,10 @@
 
         yearHeadingRow.appendChild(yearHeading);
         yearHeadingRow.appendChild(yearDivider);
-
         yearGroupDiv.appendChild(yearHeadingRow);
 
         const monthsObj = groups[year];
-        const monthIndexes = Object.keys(monthsObj)
-          .map(Number)
-          .sort((a, b) => a - b);
+        const monthIndexes = Object.keys(monthsObj).map(Number).sort((a, b) => a - b);
 
         monthIndexes.forEach(mIndex => {
           const monthInfo = monthsObj[mIndex];
@@ -898,7 +902,6 @@
 
               const card = document.createElement("article");
               card.className = "event-card";
-              // IMPORTANT: use data-start-date (hyphen) so querySelector works
               card.setAttribute("data-start-date", evt.date);
 
               const datePill = document.createElement("div");
@@ -1010,78 +1013,46 @@
         eventsListEl.appendChild(yearGroupDiv);
       });
 
-      // Summary labels
-      countLabelEl.textContent =
-        filtered.length + (filtered.length === 1 ? " event" : " events");
+      countLabelEl.textContent = filtered.length + (filtered.length === 1 ? " event" : " events");
 
       const filterBits = [];
       if (yearValue !== "all") filterBits.push(yearValue);
       if (monthValue !== "all") {
         const monthIndexFilter = parseInt(monthValue, 10);
-        const anyEvt = filtered.find(
-          e => formatDateParts(e.date).monthIndex === monthIndexFilter
-        );
+        const anyEvt = filtered.find(e => formatDateParts(e.date).monthIndex === monthIndexFilter);
         if (anyEvt) filterBits.push(formatDateParts(anyEvt.date).monthLabel);
       }
       if (searchTerm) filterBits.push(`matching “${searchTerm}”`);
 
-      filterLabelEl.textContent = filterBits.length
-        ? " · " + filterBits.join(" · ")
-        : "";
-
+      filterLabelEl.textContent = filterBits.length ? " · " + filterBits.join(" · ") : "";
       rangeLabelEl.textContent = formatRange(filtered);
     }
 
     function scrollToNextEvent() {
       if (!currentFiltered.length) return;
 
-      const sorted = [...currentFiltered].sort(
-        (a, b) => parseDate(a.date) - parseDate(b.date)
-      );
+      const sorted = [...currentFiltered].sort((a, b) => parseDate(a.date) - parseDate(b.date));
       const idx = getNextUpcomingIndex(sorted);
       const targetDate = sorted[idx].date;
 
-      let targetCard = eventsListEl.querySelector(
-        `.event-card[data-start-date="${targetDate}"]`
-      );
-
+      let targetCard = eventsListEl.querySelector(`.event-card[data-start-date="${targetDate}"]`);
       const allCards = eventsListEl.querySelectorAll(".event-card");
       if (!targetCard && allCards.length) targetCard = allCards[0];
 
       if (targetCard) targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
     }
 
-    // =====================================================
-    // 6. YEAR BADGE (RANGE)
-    // =====================================================
     function updateYearBadge() {
       if (!events.length) {
         yearLabelEl.textContent = "No events";
         return;
       }
-      const years = Array.from(
-        new Set(events.map(e => parseDate(e.date).getFullYear()))
-      ).sort((a, b) => a - b);
-
-      yearLabelEl.textContent =
-        years.length === 1
-          ? years[0]
-          : years[0] + "–" + years[years.length - 1];
+      const years = Array.from(new Set(events.map(e => parseDate(e.date).getFullYear()))).sort((a, b) => a - b);
+      yearLabelEl.textContent = years.length === 1 ? years[0] : years[0] + "–" + years[years.length - 1];
     }
 
-    // =====================================================
-    // 7. INITIALIZE
-    // =====================================================
     document.addEventListener("DOMContentLoaded", () => {
-      if (!events.length) {
-        updateYearBadge();
-        renderEvents();
-        return;
-      }
-
-      sortedAll = [...events].sort(
-        (a, b) => parseDate(a.date) - parseDate(b.date)
-      );
+      sortedAll = [...events].sort((a, b) => parseDate(a.date) - parseDate(b.date));
 
       updateYearBadge();
       populateYearFilter(sortedAll);
@@ -1093,9 +1064,7 @@
         const base =
           yearValue === "all"
             ? sortedAll
-            : sortedAll.filter(
-                e => formatDateParts(e.date).year === parseInt(yearValue, 10)
-              );
+            : sortedAll.filter(e => formatDateParts(e.date).year === parseInt(yearValue, 10));
         populateMonthFilter(base);
         renderEvents();
       });
