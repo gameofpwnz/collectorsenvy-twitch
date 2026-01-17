@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collectors Envy - Brand Guidelines</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ce-dark: #0a0a0a;
+            --ce-darker: #050505;
+            --ce-accent: #00ff88;
+            --ce-accent-dim: #00cc6e;
+            --ce-text: #e8e8e8;
+            --ce-text-dim: #999;
+            --ce-border: #222;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            background: var(--ce-darker);
+            color: var(--ce-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated grid background */
+        .grid-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(var(--ce-border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--ce-border) 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0.3;
+            z-index: 0;
+            animation: gridSlide 30s linear infinite;
+        }
+
+        @keyframes gridSlide {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            padding: 4rem 0 2rem;
+            border-bottom: 2px solid var(--ce-accent);
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Antonio', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--ce-accent) 0%, #00ffcc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideInLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--ce-text-dim);
+            max-width: 600px;
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Section headers */
+        h2 {
+            font-family: 'Antonio', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            margin: 4rem 0 2rem;
+            color: var(--ce-accent);
+            letter-spacing: -0.01em;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60%;
+            height: 3px;
+            background: var(--ce-accent);
+            animation: expandWidth 0.6s ease-out;
+        }
+
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60%; }
+        }
+
+        h3 {
+            font-family: 'Antonio', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--ce-text);
+            margin: 2rem 0 1rem;
+            text-transform: uppercase;
+        }
+
+        /* Logo section */
+        .logo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .logo-card {
+            background: var(--ce-dark);
+            border: 1px solid var(--ce-border);
+            padding: 2rem;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 0%, var(--ce-accent) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .logo-card:hover {
+            border-color: var(--ce-accent);
+            transform: translateY(-4px);
+        }
+
+        .logo-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .logo-preview {
+            background: #1a1a1a;
+            padding: 3rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-preview img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .logo-info h4 {
+            font-family: 'Antonio', sans-serif;
+            font-size: 1.2rem;
+            color: var(--ce-accent);
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-info p {
+            color: var(--ce-text-dim);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: var(--ce-accent);
+            color: var(--ce-dark);
+            padding: 0.75rem 2rem;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--ce-accent);
+            position: relative;
+            z-index: 1;
+        }
+
+        .download-btn:hover {
+            background: transparent;
+            color: var(--ce-accent);
+        }
+
+        /* Color palette */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .color-card {
+            background: var(--ce-dark);
+            border: 1px solid var(--ce-border);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .color-card:hover {
+            transform: scale(1.05);
+        }
+
+        .color-swatch {
+            height: 200px;
+            width: 100%;
+            position: relative;
+        }
+
+        .color-info {
+            padding: 1.5rem;
+        }
+
+        .color-name {
+            font-family: 'Antonio', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .color-values {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .color-value {
+            font-size: 0.9rem;
+            color: var(--ce-text-dim);
+            font-family: 'Space Mono', monospace;
+        }
+
+        .color-label {
+            display: inline-block;
+            min-width: 50px;
+            color: var(--ce-accent);
+            font-weight: 700;
+        }
+
+        /* Typography */
+        .typography-section {
+            margin: 3rem 0;
+        }
+
+        .font-display {
+            background: var(--ce-dark);
+            border: 1px solid var(--ce-border);
+            padding: 3rem;
+            margin: 2rem 0;
+        }
+
+        .font-specimen {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .font-details {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            color: var(--ce-text-dim);
+            font-size: 0.9rem;
+        }
+
+        .font-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .font-detail strong {
+            color: var(--ce-accent);
+        }
+
+        /* Usage guidelines */
+        .guidelines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .guideline-card {
+            background: var(--ce-dark);
+            border-left: 4px solid var(--ce-accent);
+            padding: 2rem;
+        }
+
+        .guideline-card h4 {
+            font-family: 'Antonio', sans-serif;
+            color: var(--ce-accent);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .do-dont {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .do, .dont {
+            background: var(--ce-dark);
+            border: 1px solid var(--ce-border);
+            padding: 2rem;
+        }
+
+        .do h4 {
+            color: var(--ce-accent);
+            margin-bottom: 1rem;
+        }
+
+        .dont h4 {
+            color: #ff4444;
+            margin-bottom: 1rem;
+        }
+
+        .do h4::before {
+            content: '✓ ';
+            font-weight: 700;
+        }
+
+        .dont h4::before {
+            content: '✗ ';
+            font-weight: 700;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        ul li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--ce-accent);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 6rem;
+            padding: 3rem 0;
+            border-top: 2px solid var(--ce-accent);
+            text-align: center;
+            color: var(--ce-text-dim);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--ce-accent);
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #00ffcc;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .do-dont {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 3rem;
+            }
+        }
+
+        /* Scroll reveal animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Note box */
+        .note-box {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 255, 204, 0.05) 100%);
+            border: 1px solid var(--ce-accent);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0;
+        }
+
+        .note-box p {
+            margin: 0;
+            color: var(--ce-text);
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-background"></div>
+    
+    <div class="container">
+        <header>
+            <h1>Collectors Envy</h1>
+            <p class="subtitle">Brand Guidelines & Assets — For esports collectors worldwide</p>
+        </header>
+
+        <main>
+            <!-- Introduction -->
+            <section class="reveal">
+                <h2>About Our Brand</h2>
+                <p style="max-width: 800px; margin-top: 1.5rem;">
+                    Collector's Envy is a dedicated community for esports fans who buy, sell, trade, and discover rare memorabilia and jerseys. Our brand represents passion, authenticity, and the thrill of the hunt for that perfect piece of esports history.
+                </p>
+                <div class="note-box">
+                    <p><strong>Important:</strong> All brand assets are available in our <a href="https://drive.google.com/drive/folders/1883RyWWaUV8a095njO6RufDrPKi389ZJ" style="color: var(--ce-accent); text-decoration: none; font-weight: 700;">Google Drive Branding Folder</a>. Please use these official assets to maintain brand consistency.</p>
+                </div>
+            </section>
+
+            <!-- Logos -->
+            <section class="reveal">
+                <h2>Logos</h2>
+                <p style="margin-bottom: 2rem; color: var(--ce-text-dim);">
+                    Our logo represents the community and passion behind esports collecting. Use these variations appropriately based on your medium and background.
+                </p>
+                
+                <div class="logo-grid">
+                    <div class="logo-card">
+                        <div class="logo-preview">
+				<img src="https://lh3.googleusercontent.com/d/1YUsyR_rYlyOA7HnPvrEHExFwL25cs9DX=w200-h200" alt="Collector's Envy Primary Logo">
+                        </div>
+                        <div class="logo-info">
+                            <h4>Primary Logo</h4>
+                            <p>Use on dark backgrounds and as the default logo across all applications.</p>
+                            <a href="https://drive.google.com/drive/folders/1_uFFD9rd7jNKpO4V2cg1KmzwHueTkd7c?usp=sharing" class="download-btn">Download</a>
+                        </div>
+                    </div>
+
+                    <div class="logo-card">
+                        <div class="logo-preview" style="background: #fff;">
+                            <img src="https://lh3.googleusercontent.com/d/1M-LPm1ZCXnRmWZfP48tCRuYZXhuB-Jgy=w200-h200" alt="Collector's Envy Reverse Logo">
+                        </div>
+                        <div class="logo-info">
+                            <h4>Reverse Logo</h4>
+                            <p>Use on light backgrounds and when contrast is needed.</p>
+                            <a href="https://drive.google.com/drive/folders/1_uFFD9rd7jNKpO4V2cg1KmzwHueTkd7c?usp=sharing" class="download-btn">Download</a>
+                        </div>
+                    </div>
+
+                    <div class="logo-card">
+                        <div class="logo-preview">
+                            <img src="https://lh3.googleusercontent.com/d/1UXfBgNfj7C3VimpwAMKJ9xiDEIXE2jDq=w200-h200" alt="Collector's Envy Icon">
+                        </div>
+                        <div class="logo-info">
+                            <h4>Icon/Badge</h4>
+                            <p>Use for social media avatars, app icons, and small applications.</p>
+                            <a href="https://drive.google.com/drive/folders/1s28X6r8HKh2S7_cqOWXXbl-SmiTDSvYY?usp=sharing" class="download-btn">Download</a>
+                        </div>
+                    </div>
+
+                    <div class="logo-card">
+                        <div class="logo-preview">
+                            <img src="https://lh3.googleusercontent.com/d/1iaJphNNj-YeVZL78Ifu17OGo8m7gDw9e=w200-h200" alt="Collector's Envy TYPEFACE">
+                        </div>
+                        <div class="logo-info">
+                            <h4>Typeface</h4>
+                            <p>Use for horizontal layouts and when maximum legibility is required.</p>
+                            <a href="https://drive.google.com/drive/folders/1LaaoHK12qa4lyxd4fioaSwQ-3Sx11WZV?usp=sharing" class="download-btn">Download</a>
+                        </div>
+                    </div>
+
+                    <div class="logo-card">
+                        <div class="logo-preview">
+                            <img src="https://lh3.googleusercontent.com/d/1V9BbmmjVd5jHDblt8jxswfVlzEL5htCu=w200-h200" alt="Collector's Envy Initials">
+                        </div>
+                        <div class="logo-info">
+                            <h4>Alternative Logo</h4>
+                            <p>Use for alternative.</p>
+                            <a href="https://drive.google.com/drive/folders/1_9J7mL0HbXovNdE8tUFTenxjiq9_YWw9?usp=sharing" class="download-btn">Download</a>
+                        </div>
+                    </div>
+
+                    <div class="logo-card">
+                        <div class="logo-preview">
+                            <img src="https://lh3.googleusercontent.com/d/1rkm59iNyV2UcneilDbYrQ-_mEj_eWQNY=w200-h200" alt="Collector's Envy Splash Logo">
+                        </div>
+                        <div class="logo-info">
+                            <h4>Alternative Logo</h4>
+                            <p>Retro Logo</p>
+                            <a href="https://drive.google.com/drive/folders/1GVaxMxaBzkhxUHzfnwk5oIMJq9z_r60x?usp=sharing" class="download-btn">Download</a>
+                        </div>
+                    </div>
+
+                    <div class="logo-card">
+                        <div class="logo-preview">
+                            <img src="https://lh3.googleusercontent.com/d/1eTOh5RiJhCdzHEa1BjASf3AC7KBwvpMv=w200-h200" alt="Collector's Envy OG">
+                        </div>
+                        <div class="logo-info">
+                            <h4>Alternative Logo</h4>
+                            <p>OG Legacy Logo - Limited Usage.</p>
+                            <a href="https://drive.google.com/drive/folders/16TLDip3M4ARd-TlL67XY_qx72mBpwpV2?usp=sharing" class="download-btn">Download</a>
+                        </div>
+                    </div>
+
+                    <div class="logo-card">
+                        <div class="logo-preview">
+                            <img src="https://lh3.googleusercontent.com/d/1lr_-91W651p93hTBZWHE1aCvAydRIOYa=w200-h200" alt="Collector's Envy Liquid Metal">
+                        </div>
+                        <div class="logo-info">
+                            <h4>Alternative Logo</h4>
+                            <p>Use for alternative.</p>
+                            <a href="https://drive.google.com/drive/folders/1qJpGQIGRQGKr-T7t2YAMhOO6cnycmy-y?usp=sharing" class="download-btn">Download</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Color Palette -->
+            <section class="reveal">
+                <h2>Color Palette</h2>
+                <p style="margin-bottom: 2rem; color: var(--ce-text-dim);">
+                    Our color palette reflects the energy and authenticity of the esports collecting community. Use these colors consistently across all brand touchpoints.
+                </p>
+
+                <div class="color-grid">
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: #00ff88;"></div>
+                        <div class="color-info">
+                            <div class="color-name" style="color: #00ff88;">Alternative Green</div>
+                            <div class="color-values">
+                                <div class="color-value"><span class="color-label">HEX:</span> #00ff88</div>
+                                <div class="color-value"><span class="color-label">RGB:</span> 0, 255, 136</div>
+                                <div class="color-value"><span class="color-label">USE:</span> Accents, highlights</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: #0a0a0a;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Dark Background</div>
+                            <div class="color-values">
+                                <div class="color-value"><span class="color-label">HEX:</span> #0a0a0a</div>
+                                <div class="color-value"><span class="color-label">RGB:</span> 10, 10, 10</div>
+                                <div class="color-value"><span class="color-label">USE:</span> Primary backgrounds, cards</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: #e8e8e8;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Text Light</div>
+                            <div class="color-values">
+                                <div class="color-value"><span class="color-label">HEX:</span> #e8e8e8</div>
+                                <div class="color-value"><span class="color-label">RGB:</span> 232, 232, 232</div>
+                                <div class="color-value"><span class="color-label">USE:</span> Primary text on dark backgrounds</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="color-card">
+                        <div class="color-swatch" style="background: #999999;"></div>
+                        <div class="color-info">
+                            <div class="color-name">Text Secondary</div>
+                            <div class="color-values">
+                                <div class="color-value"><span class="color-label">HEX:</span> #999999</div>
+                                <div class="color-value"><span class="color-label">RGB:</span> 153, 153, 153</div>
+                                <div class="color-value"><span class="color-label">USE:</span> Secondary text, captions, metadata</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Usage Guidelines -->
+            <section class="reveal">
+                <h2>Usage Guidelines</h2>
+                
+                <div class="guidelines-grid">
+                    <div class="guideline-card">
+                        <h4>Clear Space</h4>
+                        <p>Always maintain clear space around the logo equal to the height of the "C" in Collector's. Never crowd the logo with other elements.</p>
+                    </div>
+
+                    <div class="guideline-card">
+                        <h4>Minimum Size</h4>
+                        <p>Never use the logo smaller than 40px in height for digital applications or 0.5 inches for print to maintain legibility.</p>
+                    </div>
+
+                    <div class="guideline-card">
+                        <h4>Background Usage</h4>
+                        <p>Use the primary logo on light backgrounds and the reverse logo on dark backgrounds. Ensure sufficient contrast.</p>
+                    </div>
+
+                    <div class="guideline-card">
+                        <h4>Color Modifications</h4>
+                        <p>Use whatever color combinations that you want. The ones on this website are just examples.</p>
+                    </div>
+                </div>
+
+                <div class="do-dont">
+                    <div class="do">
+                        <h4>DO</h4>
+                        <ul>
+                            <li>Use official logo files from the brand folder</li>
+                            <li>Maintain original logo proportions</li>
+                            <li>Ensure proper contrast with backgrounds</li>
+                            <li>Keep logos crisp and clear</li>
+                        </ul>
+                    </div>
+
+                    <div class="dont">
+                        <h4>DON'T</h4>
+                        <ul>
+                            <li>Stretch, skew, or rotate the logo</li>
+                            <li>Use low-resolution or pixelated versions</li>
+                            <li>Place logo on busy backgrounds</li>
+                            <li>Recreate or redraw the logo</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Brand Voice -->
+            <section class="reveal">
+                <h2>Brand Voice</h2>
+                <div class="guidelines-grid">
+                    <div class="guideline-card">
+                        <h4>Passionate</h4>
+                        <p>We speak with genuine enthusiasm about esports collecting and the community we've built.</p>
+                    </div>
+
+                    <div class="guideline-card">
+                        <h4>Authentic</h4>
+                        <p>We're real collectors talking to real collectors. No corporate jargon, just straight talk.</p>
+                    </div>
+
+                    <div class="guideline-card">
+                        <h4>Knowledgeable</h4>
+                        <p>We know our stuff and share expertise to help others grow their collections.</p>
+                    </div>
+
+                    <div class="guideline-card">
+                        <h4>Community-First</h4>
+                        <p>Everything we do is about bringing collectors together and celebrating the culture.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Assets & Resources -->
+            <section class="reveal">
+                <h2>Assets & Resources</h2>
+                <p style="margin-bottom: 2rem; color: var(--ce-text-dim);">
+                    Download official brand assets and find additional resources.
+                </p>
+
+                <div class="guidelines-grid">
+                    <div class="guideline-card">
+                        <h4>Full Brand Package</h4>
+                        <p>Complete set of logos in all formats (PNG, SVG, EPS) plus color swatches and typography files.</p>
+                        <a href="https://drive.google.com/drive/folders/1883RyWWaUV8a095njO6RufDrPKi389ZJ" class="download-btn" style="margin-top: 1rem;">Access Drive Folder</a>
+                    </div>
+
+                    <div class="guideline-card">
+                        <h4>PNG Files</h4>
+                        <p>PNG versions of our logos and branding.</p>
+                        <a href="https://drive.google.com/drive/u/0/folders/1bQYQxWqm2MBfEpS0n4_G7Fj9x2B3LWLd" class="download-btn" style="margin-top: 1rem;">Access Drive Folder</a>
+                    </div>
+
+                    <div class="guideline-card">
+                        <h4>Editable Files</h4>
+                        <p>Editable versions of our logos</p>
+                        <a href="https://drive.google.com/drive/u/0/folders/1Rxlq8l3kbTAOAXXyExvW20pobIsijkTR" class="download-btn" style="margin-top: 1rem;">Access Drive Folder</a>
+                    </div>
+
+                    <div class="guideline-card">
+                        <h4>Other Designs</h4>
+                        <p>Other designs created by admins or fellow members</p>
+                        <a href="https://drive.google.com/drive/u/0/folders/1RCwww06h95gxvRKzfJp9il53VwGtPakj" class="download-btn" style="margin-top: 1rem;">Access Drive Folder</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact -->
+            <section class="reveal">
+                <h2>Questions?</h2>
+                <p style="max-width: 800px; margin-top: 1.5rem;">
+                    For brand partnership inquiries, asset requests, or questions about these guidelines, reach out to us on Discord or through our social channels.
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <div class="footer-links">
+                <a href="https://www.collectorsenvy.com">Main Site</a>
+                <a href="https://discord.gg/DyHTs5GDkc">Discord</a>
+                <a href="https://x.com/Collectors_Envy">Twitter/X</a>
+                <a href="https://instagram.com/collectorsenvy">Instagram</a>
+                <a href="https://drive.google.com/drive/folders/1883RyWWaUV8a095njO6RufDrPKi389ZJ">Brand Assets</a>
+            </div>
+            <p>&copy; 2026 Collectors Envy. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Scroll reveal animation
+        const reveals = document.querySelectorAll('.reveal');
+        
+        function checkReveal() {
+            reveals.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', checkReveal);
+        checkReveal(); // Initial check
+    </script>
+</body>
+</html>
